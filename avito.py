@@ -2,9 +2,7 @@
 
 import requests
 from bs4 import BeautifulSoup
-
-# a = 'https://www.avito.ru/sankt-peterburg?p=1&q=преподаватель+английского'
-# # 19 стр
+import csv
 
 def get_html(url):
     r = requests.get(url)
@@ -18,6 +16,16 @@ def get_total_pages(html):
     total_pages = pages.split('=')[1].split('&')[0]
 
     return int(total_pages)
+
+def write_csv(data):
+    with open('avito.csv', 'a') as f:
+        writer = csv.writer(f)
+
+        writer.writerow( (data['title'],
+                          data['price'],
+                          data['metro'],
+                          data['url']) )
+
 
 def get_page_data(html):
     soup = BeautifulSoup(html, 'lxml')
@@ -51,17 +59,17 @@ def get_page_data(html):
                     'metro' : metro,
                     'url'   : url}
 
-
+            write_csv(data)
 
 def main():
-    url = 'https://www.avito.ru/sankt-peterburg?p=1&q=преподаватель+английского'
+    #url = 'https://www.avito.ru/sankt-peterburg?p=1&q=%D0%BF%D1%80%D0%B5%D0%BF%D0%BE%D0%B4%D0%B0%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8C+%D0%B0%D0%BD%D0%B3%D0%BB%D0%B8%D0%B9%D1%81%D0%BA%D0%BE%D0%B3%D0%BE'
     base_url = 'https://www.avito.ru/sankt-peterburg?'
     page_part = 'p='
-    query_part = '&q=преподаватель+английского'
+    query_part = '&q=%D0%BF%D1%80%D0%B5%D0%BF%D0%BE%D0%B4%D0%B0%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8C+%D0%B0%D0%BD%D0%B3%D0%BB%D0%B8%D0%B9%D1%81%D0%BA%D0%BE%D0%B3%D0%BE'
 
     #total_pages = get_total_pages(get_html(url))
     #for i in range(1, total_pages+1):
-    for i in range(1, 3): #на первое время, для ускорения
+    for i in range(1, 3):
         url_gen = base_url + page_part + str(i) + query_part
         #print(url_gen)
         html = get_html(url_gen)
