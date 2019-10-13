@@ -23,7 +23,34 @@ def get_page_data(html):
     soup = BeautifulSoup(html, 'lxml')
 
     ads = soup.find('div', class_ = 'catalog-list').find_all('div', class_ = 'item_table')
-    print(len(ads))
+    
+    for ad in ads:
+        #title, price, metro, url
+        try:
+            title = ad.find('div', class_ = 'description').find('h3').text.strip()
+        except:
+            title = ''
+
+        try:
+            url = 'https://www.avito.ru' + ad.find('div', class_ = 'description').find('a').get('href').strip()
+        except:
+            url = ''
+
+        try:
+            price = ad.find('div', class_ = 'about').text.strip()
+        except:
+            price = ''
+
+        try:
+            metro = ad.find('div', class_ = 'data').find('div', class_ = 'item-address').text.split(',')[0].strip()
+        except:
+            metro = ''
+
+            data = {'title' : title,
+                    'url'   : url,
+                    'price' : price,
+                    'metro' : metro}
+
 
 
 def main():
