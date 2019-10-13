@@ -32,7 +32,7 @@ def main():
     page_part = 'p='
     query_part = '&q=преподаватель+английского'
 
-    total_pages = get_total_pages(get_html(url))
+    #total_pages = get_total_pages(get_html(url))
     #for i in range(1, total_pages+1):
     for i in range(1, 3): #на первое время, для ускорения
         url_gen = base_url + page_part + str(i) + query_part
