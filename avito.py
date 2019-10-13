@@ -47,9 +47,9 @@ def get_page_data(html):
             metro = ''
 
             data = {'title' : title,
-                    'url'   : url,
                     'price' : price,
-                    'metro' : metro}
+                    'metro' : metro,
+                    'url'   : url}
 
 
 
